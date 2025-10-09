@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google"; // Switched to Inter as primary (sans-serif) and JetBrains Mono for code (similar to Geist Mono but more common; adjust if needed)
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter", // Primary font variable for Inter (sans-serif)
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // Common weights for SaaS/modern UI
+  display: "swap", // Improves loading performance
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono", // Mono font variable
   subsets: ["latin"],
+  weight: ["400", "500"], // Standard mono weights
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`} // Updated to use Inter as primary; apply in globals.css as font-family: var(--font-inter), sans-serif;
       >
         {children}
       </body>
