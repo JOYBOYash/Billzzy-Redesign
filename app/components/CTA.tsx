@@ -6,17 +6,18 @@ function CTA() {
     <div>{/* CTA Section */}
         <div
           className={`
-            text-center transition-all duration-700
+            text-center transition-all duration-700 mt-24
+            py-t-12 md:px-8
             'opacity-100 translate-y-0'}
           `}
         >
-          <div className="min-h-5xl bg-gradient-to-br from-indigo-600 to-blue-500 rounded-t-3xl p-10 md:p-12 relative absolute overflow-hidden">
+          <div className="min-h-5xl bg-gradient-to-br from-indigo-600 to-blue-500 rounded-t-3xl p-10 md:p-12 relative  overflow-hidden">
             {/* Background Image for Trust and Partnership */}
             <div className="absolute inset-0 z-0">
               <img
                 src="/contact.svg" // Replace with your actual image path
                 alt="Building trust and partnership"
-                className="w-full h-full object-cover opacity-20"
+                className="w-full h-full object-cover md:scale-100 scale-175  opacity-20"
               />
             </div>
             <div className="relative z-10">

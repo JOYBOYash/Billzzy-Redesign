@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`} // Updated to use Inter as primary; apply in globals.css as font-family: var(--font-inter), sans-serif;
+        className={` ${inter.variable} ${jetbrainsMono.variable} antialiased`} // Updated to use Inter as primary; apply in globals.css as font-family: var(--font-inter), sans-serif;
       >
         {children}
       </body>

@@ -91,8 +91,8 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="max-h-screen overflow-hidden py-20 md:py-28">
-      <div className="max-w-4xl max-h-screen mx-auto px-6 p-12 md:px-8">
+    <section className="max-h-screen overflow-hidden md:py-36 py-0">
+      <div className="max-w-4xl max-h-screen mx-auto px-6  p-12 md:px-8">
         
         {/* Header Section */}
         <div 

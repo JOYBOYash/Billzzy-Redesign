@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 
-// types.ts
+// types.ts (Keeping this as is)
 export interface Industry {
   id: string;
   title: string;
@@ -40,7 +40,7 @@ export const industriesData: Industry[] = [
   },
 ];
 
-// IndustryCard Component
+// IndustryCard Component (Minor adjustments for desktop spaciousness)
 interface IndustryCardProps {
   industry: Industry;
 }
@@ -48,15 +48,28 @@ interface IndustryCardProps {
 const IndustryCard: React.FC<IndustryCardProps> = ({ industry }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  const handleTouchStart = () => {
+    setIsHovered(true);
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      setIsHovered(false);
+    }, 100); 
+  };
+
   return (
     <a 
       href={`/industries/${industry.id}`} 
-      className="group block relative h-full overflow-hidden"
+      className="group block relative w-full h-full overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
     >
       <div className={`
-        h-full p-8 
+        h-full p-6 sm:p-8 lg:p-10 // Increased padding for larger screens
         bg-white border border-gray-100 rounded-2xl 
         transition-all duration-300 ease-out
         relative
@@ -65,7 +78,7 @@ const IndustryCard: React.FC<IndustryCardProps> = ({ industry }) => {
         
         {/* Background Icon Overlay */}
         {industry.icon && (
-          <div className="absolute bottom-0 right-0 w-62 group-hover:w-64 group-hover:h-64 transition ease-in-out h-62 overflow-hidden rounded-br-2xl pointer-events-none">
+          <div className="absolute bottom-0 right-0 md:w-62 group-hover:md:w-64 group-hover:md:h-64 transition ease-in-out h-62 overflow-hidden rounded-br-2xl pointer-events-none">
             <img 
               src={industry.icon} 
               alt="" 
@@ -78,28 +91,9 @@ const IndustryCard: React.FC<IndustryCardProps> = ({ industry }) => {
           </div>
         )}
         
-        {/* Icon Container
-        <div className={`
-          w-14 h-14 mb-6 
-          bg-gradient-to-br from-blue-50 to-indigo-50
-          rounded-xl
-          flex items-center justify-center
-          transition-all duration-300
-          relative z-10
-          ${isHovered ? 'scale-110 rotate-3 from-indigo-50 to-indigo-100' : ''}
-        `}>
-          {industry.icon && (
-            <img 
-              src={industry.icon} 
-              alt={`${industry.title} icon`} 
-              className={`w-7 h-7 transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`}
-            />
-          )}
-        </div> */}
-
         {/* Title */}
         <h3 className={`
-          text-2xl font-semibold mb-3 
+          text-2xl lg:text-3xl font-semibold mb-3 // Larger title on desktop
           transition-colors duration-300
           ${isHovered ? 'text-indigo-600' : 'text-gray-900'}
         `}>
@@ -107,7 +101,7 @@ const IndustryCard: React.FC<IndustryCardProps> = ({ industry }) => {
         </h3>
 
         {/* Description */}
-        <p className="text-gray-600 text-base leading-relaxed mb-6">
+        <p className="text-gray-600 text-base lg:text-lg leading-relaxed mb-6"> 
           {industry.description}
         </p>
 
@@ -138,21 +132,21 @@ const IndustryCard: React.FC<IndustryCardProps> = ({ industry }) => {
   );
 };
 
-// Demo Component
+// Demo Component (Updated for spacious desktop view)
 const IndustryCardDemo = () => {
   return (
-    <div className="mt-12 mb-24 md:p-12">
-      <div className="w-full p-36 mx-auto">
-        <div className="mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+    <div className="py-16 md:py-24 lg:py-32 bg-gray-50"> {/* Increased vertical padding, added subtle background */}
+      <div className="max-w-screen-xl 2xl:max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12"> {/* Wider max-width on large screens */}
+        <div className="mb-12 lg:mb-16 text-center md:text-left"> {/* Increased margin bottom */}
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 lg:mb-6">
             Industries We Serve
           </h1>
-          <p className="text-xl text-gray-600">
-            Tailored solutions for every business type
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl md:mx-0 mx-auto"> {/* Added max-width to intro text */}
+            Tailored solutions for every business type, crafted to elevate your operational efficiency and customer engagement.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 xl:gap-10"> {/* Increased grid gap */}
           {industriesData.map((industry) => (
             <IndustryCard key={industry.id} industry={industry} />
           ))}

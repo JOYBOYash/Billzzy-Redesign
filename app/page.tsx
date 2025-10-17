@@ -10,7 +10,7 @@ import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 export default function Home() {
   return (
-    <div className="bg-white ease-in-out scroll-smooth">
+    <div className="bg-white ease-in-out scroll-smooth md:overflow-x-visibble ">
       <Navbar />
       <HeroSection />
       <div  id='features'>

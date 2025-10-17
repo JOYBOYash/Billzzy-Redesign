@@ -1,16 +1,15 @@
 'use client';
-import React from 'react';
-import { motion, MotionValue } from 'framer-motion'; // Removed useScroll, useTransform as they are not used in this component directly
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, MotionValue, useScroll, useTransform } from 'framer-motion';
 import { Package, FileCheck, Printer, BarChart3, LucideIcon } from 'lucide-react';
-import Link from 'next/link';
 
 // Helper function to create a URL-friendly slug
 const createSlug = (title: string): string => {
   return title
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove non-word chars
-    .replace(/[\s_-]+/g, '-') // Replace spaces/underscores with single dash
-    .replace(/^-+|-+$/g, ''); // Trim dashes from start/end
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 };
 
 interface Feature {
@@ -21,7 +20,7 @@ interface Feature {
   image: string;
   icon: LucideIcon;
   color: string;
-  slug: string; // Add slug to the Feature interface
+  slug: string;
 }
 
 const features: Feature[] = [
@@ -70,106 +69,112 @@ const features: Feature[] = [
 interface MobilePhoneProps {
   feature: Feature;
   style: {
-    x: MotionValue<string>;
+    x?: MotionValue<string>;
+    y?: MotionValue<string>;
     opacity: MotionValue<number>;
     scale: MotionValue<number>;
   };
+  isMobile: boolean;
 }
 
-function MobilePhone({ feature, style }: MobilePhoneProps) {
+function MobilePhone({ feature, style, isMobile }: MobilePhoneProps) {
   const Icon = feature.icon;
   
   return (
     <div>
-    <motion.div 
-      style={style}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[580px]"
-    >
-      {/* Phone frame */}
-      <div  className="relative w-full h-full bg-gray-800 rounded-[36px] shadow-2xl p-2">
-        {/* Notch */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-3xl z-20" />
-        
-        {/* Screen */}
-        <div className="relative w-full h-full bg-white rounded-[28px] overflow-hidden">
-          {/* Background */}
-          <div className="absolute inset-0">
-            <img
-              src={feature.image}
-              alt={feature.title}
-              className="w-full h-full object-cover"
-            />
-            <div className={`absolute inset-0 bg-gradient-to-b ${feature.color} backdrop-blur-sm`} />
-          </div>
+      <motion.div 
+        style={style}
+        className={`absolute ${isMobile ? 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'} w-[280px] h-[580px] overflow-visible`}
+      >
+        {/* Phone frame */}
+        <div className="relative w-full h-full bg-gray-800 rounded-[36px] shadow-2xl p-2">
+          {/* Notch */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-3xl z-20" />
           
-          {/* Content */}
-          <div className="relative z-10 h-full flex flex-col justify-between p-6">
-            {/* Top */}
-            <div className="text-center pt-6">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
-                className="w-14 h-14 bg-white/80 backdrop-blur-lg rounded-xl flex items-center justify-center mx-auto mb-3 border border-white shadow-lg"
-              >
-                <Icon className="w-7 h-7 text-indigo-600" />
-              </motion.div>
-              
-              <h3 className="text-2xl font-bold text-white mb-1">
-                {feature.title}
-              </h3>
-              
-              <p className="text-white/70 text-xs">
-                {feature.subtitle}
-              </p>
+          {/* Screen */}
+          <div className="relative w-full h-full bg-white rounded-[28px] overflow-hidden">
+            {/* Background */}
+            <div className="absolute inset-0">
+              <img
+                src={feature.image}
+                alt={feature.title}
+                className="w-full h-full object-cover"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-b ${feature.color} backdrop-blur-sm`} />
             </div>
             
-            {/* Bottom */}
-            <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-5 border border-gray-200 shadow-lg">
-              <p className="text-gray-700 text-sm leading-relaxed mb-4">
-                {feature.desc}
-              </p>
-              
-              {/* Updated Link usage */}
-              <Link href={`/features/${feature.slug}`} passHref>
+            {/* Content */}
+            <div className="relative z-10 h-full flex flex-col justify-between p-6">
+              {/* Top */}
+              <div className="text-center pt-6">
                 <motion.div
-                    // Framer Motion props directly on the 'motion.a' component
-                    whileHover={{ scale: 1.02, boxShadow: "0 8px 16px rgba(100, 0, 200, 0.2)" }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold cursor-pointer rounded-xl text-sm hover:from-indigo-700 hover:to-purple-700 transition-all shadow-md block text-center"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
+                  className="w-14 h-14 bg-white/80 backdrop-blur-lg rounded-xl flex items-center justify-center mx-auto mb-3 border border-white shadow-lg"
                 >
-                    Learn More
+                  <Icon className="w-7 h-7 text-indigo-600" />
                 </motion.div>
-              </Link>
+                
+                <h3 className="text-2xl font-bold text-white mb-1">
+                  {feature.title}
+                </h3>
+                
+                <p className="text-white/70 text-xs">
+                  {feature.subtitle}
+                </p>
+              </div>
+              
+              {/* Bottom */}
+              <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-5 border border-gray-200 shadow-lg">
+                <p className="text-gray-700 text-sm leading-relaxed mb-4">
+                  {feature.desc}
+                </p>
+                
+                <motion.div
+                  whileHover={{ scale: 1.02, boxShadow: "0 8px 16px rgba(100, 0, 200, 0.2)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold cursor-pointer rounded-xl text-sm hover:from-indigo-700 hover:to-purple-700 transition-all shadow-md block text-center"
+                >
+                  Learn More
+                </motion.div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Power button */}
-        <div className="absolute right-0 top-20 w-1 h-12 bg-gray-700 rounded-l" />
-        {/* Volume buttons */}
-        <div className="absolute left-0 top-16 w-1 h-8 bg-gray-700 rounded-r" />
-        <div className="absolute left-0 top-28 w-1 h-8 bg-gray-700 rounded-r" />
-      </div>
-    </motion.div>
+          {/* Power button */}
+          <div className="absolute right-0 top-20 w-1 h-12 bg-gray-700 rounded-l" />
+          {/* Volume buttons */}
+          <div className="absolute left-0 top-16 w-1 h-8 bg-gray-700 rounded-r" />
+          <div className="absolute left-0 top-28 w-1 h-8 bg-gray-700 rounded-r" />
+        </div>
+      </motion.div>
     </div>
   );
 }
 
-// The ScrollFeaturesSection remains unchanged, as the error was only in MobilePhone
-import { useRef } from 'react'; // Added explicit import for useRef
-import { useScroll, useTransform } from 'framer-motion'; // Added explicit imports
-
 export default function ScrollFeaturesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  // Create transforms for horizontal sliding
-  // Each phone slides from right to left as you scroll
-  const createPhoneTransforms = (index: number) => {
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Create transforms for horizontal sliding (desktop)
+  const createPhoneTransformsDesktop = (index: number) => {
     const totalPhones = features.length;
     const segmentSize = 1 / totalPhones;
     const start = index * segmentSize;
@@ -177,6 +182,32 @@ export default function ScrollFeaturesSection() {
     
     return {
       x: useTransform(
+        scrollYProgress,
+        [start, end],
+        ['100%', '-100%']
+      ),
+      opacity: useTransform(
+        scrollYProgress,
+        [start, start + segmentSize * 0.2, end - segmentSize * 0.2, end],
+        [0, 1, 1, 0]
+      ),
+      scale: useTransform(
+        scrollYProgress,
+        [start, start + segmentSize * 0.2, end - segmentSize * 0.2, end],
+        [0.8, 1, 1, 0.8]
+      )
+    };
+  };
+
+  // Create transforms for vertical sliding (mobile)
+  const createPhoneTransformsMobile = (index: number) => {
+    const totalPhones = features.length;
+    const segmentSize = 1 / totalPhones;
+    const start = index * segmentSize;
+    const end = (index + 1) * segmentSize;
+    
+    return {
+      y: useTransform(
         scrollYProgress,
         [start, end],
         ['100%', '-100%']
@@ -241,7 +272,7 @@ export default function ScrollFeaturesSection() {
         />
       </div>
 
-      {/* Horizontal Scroll Section */}
+      {/* Scroll Section */}
       <div 
         ref={containerRef}
         style={{ height: `${features.length * 100}vh` }}
@@ -251,7 +282,8 @@ export default function ScrollFeaturesSection() {
           {/* Background text */}
           <motion.div
             style={{
-              x: useTransform(scrollYProgress, [0, 1], ['0%', '-50%'])
+              x: isMobile ? '0%' : useTransform(scrollYProgress, [0, 1], ['0%', '-50%']),
+              y: isMobile ? useTransform(scrollYProgress, [0, 1], ['0%', '-50%']) : '0%'
             }}
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
           >
@@ -263,12 +295,15 @@ export default function ScrollFeaturesSection() {
           {/* Phones container */}
           <div className="relative w-full h-full">
             {features.map((feature, index) => {
-              const transforms = createPhoneTransforms(index);
+              const transforms = isMobile 
+                ? createPhoneTransformsMobile(index)
+                : createPhoneTransformsDesktop(index);
               return (
                 <MobilePhone
                   key={feature.id}
                   feature={feature}
                   style={transforms}
+                  isMobile={isMobile}
                 />
               );
             })}
