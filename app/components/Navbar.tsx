@@ -6,12 +6,12 @@ import Link from "next/link";
 
 const navItems = [
   {
-    title: "Automations",
-    links: ["Orders","Payments", "Printing", "Tracking"],
+    title: "Features",
+    links: ["Order Confirmation Automation","Packing Tracking Automation", "Label Printing", "Automatic Amount Confirmation"],
   },
   {
-    title: "Indstries",
-    links: ["E-Commerce","Retail", "Small Business", "Logistics & Delivery"],
+    title: "Industries",
+    links: ["E-Commerce","Retail", "Small Businesses", "Logistics & Delivery"],
   },
 ];
 
@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
                 <Link
                   key={link}
                   id="link"
-                  href={`/${link.toLowerCase().replace(/\s+/g, "-")}`}
+                  href={`/${item.title.toLowerCase().replace(/\s+/g, "-")}/${link.toLowerCase().replace(/\s+/g, "-")}`}
                   className="group flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-300"
                 >
                   {link}
@@ -108,10 +108,10 @@ const Navbar: React.FC = () => {
           </Link>
 
            <Link
-            href="#contact"
+            href="#faq"
             className=" text-gray-700 px-5 py-2 hover:text-indigo-600 transition-all duration-300"
           >
-          Contact
+          FAQ
           </Link>
 
           {/* CTA Button */}

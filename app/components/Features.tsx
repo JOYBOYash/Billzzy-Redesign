@@ -80,12 +80,13 @@ function MobilePhone({ feature, style }: MobilePhoneProps) {
   const Icon = feature.icon;
   
   return (
-    <motion.div
+    <div>
+    <motion.div 
       style={style}
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[580px]"
     >
       {/* Phone frame */}
-      <div className="relative w-full h-full bg-gray-800 rounded-[36px] shadow-2xl p-2">
+      <div  className="relative w-full h-full bg-gray-800 rounded-[36px] shadow-2xl p-2">
         {/* Notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-3xl z-20" />
         
@@ -151,6 +152,7 @@ function MobilePhone({ feature, style }: MobilePhoneProps) {
         <div className="absolute left-0 top-28 w-1 h-8 bg-gray-700 rounded-r" />
       </div>
     </motion.div>
+    </div>
   );
 }
 

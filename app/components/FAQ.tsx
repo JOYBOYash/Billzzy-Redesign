@@ -91,8 +91,8 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 py-20 md:py-28">
-      <div className="max-w-4xl mx-auto px-6 md:px-8">
+    <section className="max-h-screen overflow-hidden py-20 md:py-28">
+      <div className="max-w-4xl max-h-screen mx-auto px-6 p-12 md:px-8">
         
         {/* Header Section */}
         <div 

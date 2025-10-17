@@ -34,11 +34,11 @@ const WhatWeDoSection = () => {
   ];
 
   return (
-    <div className="p-36 bg-gradient-to-br from-indigo-600 via-indigo-400 to-blue-500 flex items-center justify-center p-5">
+    <div className="p-36 bg-gradient-to-br from-indigo-600 via-indigo-400 to-blue-500 flex items-center justify-center">
       <div className="max-w-7xl w-full">
         <div className="animate-fadeInUp">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 leading-tight">
-            A smarter way to <span className=' text-indigo-700 font-bold'> - discover and bill. </span>
+            A smarter way to <span className=' text-indigo-700 font-bold underline decoration-white underline-offset-6'> discover</span> and  <span className=' underline-offset-6 text-indigo-700 font-bold underline decoration-white'>bill</span>.
           </h1>
           <p className="text-xl text-white/90 leading-relaxed mb-16 max-w-3xl">
             We make sense of the market so you can make more strategic choices, faster. 
@@ -52,7 +52,7 @@ const WhatWeDoSection = () => {
             return (
               <div
                 key={feature.id}
-                className="group bg-white/95 backdrop-blur-lg rounded-xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl relative overflow-hidden"
+                className="group bg-white/95 backdrop-blur-lg rounded-lg p-8 cursor-pointer transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl relative overflow-hidden"
                 style={{ 
                   animation: `fadeInUp 0.8s ease ${0.3 + index * 0.1}s backwards` 
                 }}

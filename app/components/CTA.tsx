@@ -1,4 +1,5 @@
 import React from 'react'
+import Footer from './Footer'
 
 function CTA() {
   return (
@@ -9,7 +10,7 @@ function CTA() {
             'opacity-100 translate-y-0'}
           `}
         >
-          <div className="min-h-5xl bg-gradient-to-br from-indigo-600 to-blue-500 rounded-3xl p-10 md:p-12 shadow-xl relative overflow-hidden">
+          <div className="min-h-5xl bg-gradient-to-br from-indigo-600 to-blue-500 rounded-t-3xl p-10 md:p-12 relative absolute overflow-hidden">
             {/* Background Image for Trust and Partnership */}
             <div className="absolute inset-0 z-0">
               <img
@@ -25,7 +26,7 @@ function CTA() {
                 className="w-64 h-34"
               /> */}
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to Elevate Your Financial Management?
+                 Supercharge your business with Billzzy
               </h3>
               <p className="text-lg text-indigo-50 mb-8 max-w-2xl mx-auto">
                 Join countless businesses who trust Billzzy for seamless, secure, and smart financial solutions. Partner with us for unparalleled growth.
@@ -39,6 +40,8 @@ function CTA() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </a>
+
+              {/* <Footer /> */}
             </div>
           </div>
         </div>

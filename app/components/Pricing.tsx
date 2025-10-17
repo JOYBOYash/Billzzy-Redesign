@@ -104,7 +104,7 @@ const PricingSection = () => {
   }, []);
 
   return (
-    <div className="py-20 sm:py-28 lg:py-36 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20">
+    <div className="py-20 sm:py-28 lg:py-36">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         
         {/* Header */}

@@ -7,18 +7,27 @@ import WhatWeDoSection from "./components/What";
 import IndustriesSection from "./components/Industries";
 import PricingSection from "./components/Pricing";
 import CTA from "./components/CTA";
-
+import Footer from "./components/Footer";
 export default function Home() {
   return (
-    <div className="bg-white ease-in-out">
+    <div className="bg-white ease-in-out scroll-smooth">
       <Navbar />
       <HeroSection />
-      <FeaturesSection />
-      <IndustriesSection />
+      <div  id='features'>
+       <FeaturesSection />
+      </div>
+      <div  id='industries'>
+        <IndustriesSection />
+      </div>
       <WhatWeDoSection />
-      <PricingSection />
-      <FAQSection />
+      <div  id='pricing'>
+       <PricingSection />
+      </div>
+      <div  id='faq'>
+        <FAQSection />
+      </div>
       <CTA />
+      <Footer />
     </div>
   );
 }
