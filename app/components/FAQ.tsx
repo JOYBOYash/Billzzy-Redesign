@@ -1,158 +1,184 @@
-'use client'
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+'use client';
+import React, { useState, useRef, useEffect } from 'react';
+import { Plus, Minus, MessageCircle } from 'lucide-react';
 
-const faqs = [
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+const faqs: FAQItem[] = [
   {
-    question: "Is my data safe with Billzzy?",
+    question: 'Is my data safe with Billzzy?',
     answer:
-      "Absolutely. Billzzy is built on secure AWS infrastructure with encryption both in transit and at rest — ensuring your data stays yours, always. We also perform regular security audits to keep your business safe.",
+      'Absolutely. Billzzy is built on secure AWS infrastructure with encryption both in transit and at rest — ensuring your data stays yours, always. We also perform regular security audits to keep your business safe.',
   },
   {
-    question: "Can I manage products with different sizes and colors?",
+    question: 'Can I manage products with different sizes and colors?',
     answer:
-      "Yes! Billzzy supports full product variants — including size, color, and style — each tracked separately for inventory accuracy. It's made for real-world retail needs.",
+      'Yes! Billzzy supports full product variants — including size, color, and style — each tracked separately for inventory accuracy. It\'s made for real-world retail needs.',
   },
   {
-    question: "Is it difficult to get started?",
+    question: 'Is it difficult to get started?',
     answer:
-      "Not at all! You can create your account, add products, and generate your first bill in under 5 minutes. Our guided onboarding walks you through every step.",
+      'Not at all! You can create your account, add products, and generate your first bill in under 5 minutes. Our guided onboarding walks you through every step.',
   },
   {
-    question: "Who is Billzzy for?",
+    question: 'Who is Billzzy for?',
     answer:
-      "Billzzy is designed for small businesses, boutique owners, and shop managers who want powerful billing without the complexity of traditional ERP tools.",
+      'Billzzy is designed for small businesses, boutique owners, and shop managers who want powerful billing without the complexity of traditional ERP tools.',
   },
   {
-    question: "Can I access Billzzy on mobile?",
+    question: 'Can I access Billzzy on mobile?',
     answer:
-      "Yes! Billzzy works seamlessly across desktop, tablet, and mobile browsers — so your business moves with you, wherever you go.",
+      'Yes! Billzzy works seamlessly across desktop, tablet, and mobile browsers — so your business moves with you, wherever you go.',
   },
 ];
 
-function FAQItem({ faq, index, isOpen, onToggle }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 36 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{
-        delay: index * 0.10,
-        duration: 0.62,
-        ease: [0.18, 0.44, 0.29, 0.96]
-      }}
-      viewport={{ once: true, margin: "-50px" }}
-      className="border-b border-neutral-800/70 hover:border-cyan-400/30 transition-colors"
-    >
-      <button
-        onClick={onToggle}
-        className="w-full flex justify-between items-center py-6 text-left group focus:outline-none rounded-lg"
-      >
-        <h3 className="text-lg md:text-xl font-medium text-neutral-100 group-hover:text-cyan-400 transition-colors duration-200">
-          {faq.question}
-        </h3>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ type: "spring", stiffness: 250, damping: 16 }}
-          className="ml-4"
-        >
-          <ChevronDown className="w-5 h-5 text-neutral-400 group-hover:text-cyan-400 transition-colors duration-150" />
-        </motion.div>
-      </button>
+const FAQSection = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [faqVisibilities, setFaqVisibilities] = useState<boolean[]>(new Array(faqs.length).fill(false));
+  const [ctaVisible, setCtaVisible] = useState(false);
 
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="faqanswer"
-            initial={{ height: 0, opacity: 0, y: -8 }}
-            animate={{ height: "auto", opacity: 1, y: 0 }}
-            exit={{ height: 0, opacity: 0, y: -8 }}
-            transition={{
-              duration: 0.47,
-              ease: [0.18, 0.7, 0.34, 0.96]
-            }}
-            className="overflow-hidden pb-4 pl-1"
-          >
-            <motion.div
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{
-                duration: 0.34,
-                ease: [0.32, 0.72, 0.21, 1]
-              }}
-              className=" rounded-lg p-3"
-            >
-              <p className="text-neutral-400 leading-relaxed">
-                {faq.answer}
-              </p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
-export default function FAQSection() {
-  const [openIndex, setOpenIndex] = useState(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target === sectionRef.current) {
+              setIsVisible(true);
+            }
+            faqRefs.current.forEach((faqRef, index) => {
+              if (faqRef === entry.target) {
+                setFaqVisibilities(prev => {
+                  const newVisibilities = [...prev];
+                  newVisibilities[index] = true;
+                  return newVisibilities;
+                });
+              }
+            });
+            if (entry.target === ctaRef.current) {
+              setCtaVisible(true);
+            }
+          }
+        });
+      },
+      { rootMargin: '0px', threshold: 0.2 }
+    );
 
-  const handleToggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    faqRefs.current.forEach(faqRef => {
+      if (faqRef) observer.observe(faqRef);
+    });
+    if (ctaRef.current) observer.observe(ctaRef.current);
+
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+      faqRefs.current.forEach(faqRef => {
+        if (faqRef) observer.unobserve(faqRef);
+      });
+      if (ctaRef.current) observer.unobserve(ctaRef.current);
+    };
+  }, []);
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(prevIndex => (prevIndex === index ? null : index));
   };
 
   return (
-    <section className="w-full py-24 px-6 relative overflow-hidden">
-      <motion.div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full blur-3xl pointer-events-none"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1.18 }}
-      />
-      <div className="relative max-w-3xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.19, 0.7, 0.33, 1.02] }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+    <section className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 py-20 md:py-28">
+      <div className="max-w-4xl mx-auto px-6 md:px-8">
+        
+        {/* Header Section */}
+        <div 
+          ref={sectionRef}
+          className={`text-center mb-16 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
         >
-          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4">
-            Frequently Asked Questions
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full mb-6">
+            <MessageCircle className="w-4 h-4 text-indigo-600" />
+            <span className="text-sm font-medium text-indigo-600">FAQ</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Questions? <br/> <span className='text-indigo-600 font-bold'> We've Got Solutions!</span>
           </h2>
-          <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-            Got a question? We’ve got honest answers — straight from the team that built Billzzy.
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Everything you need to know about Billzzy and how it can transform your business
           </p>
-        </motion.div>
-
-        <div className="divide-y divide-neutral-800">
-          {faqs.map((faq, index) => (
-            <FAQItem
-              key={index}
-              faq={faq}
-              index={index}
-              isOpen={openIndex === index}
-              onToggle={() => handleToggle(index)}
-            />
-          ))}
         </div>
 
-        {/* subtle CTA at bottom */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "circOut", delay: 0.32 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center"
-        >
-          <p className="text-neutral-400 mb-3">
-            Didn’t find what you’re looking for?
-          </p>
-          <button className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-neutral-900 font-semibold rounded-full shadow-md transition-all hover:scale-105">
-            Chat with Support →
-          </button>
-        </motion.div>
+        {/* FAQ Items */}
+        <div className="space-y-4 mb-20">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+            const isVisible = faqVisibilities[index];
+            
+            return (
+              <div
+                key={index}
+                ref={el => { faqRefs.current[index] = el }}
+                className={`
+                  bg-white rounded-2xl border border-gray-100 overflow-hidden
+                  transition-all duration-700 hover:border-indigo-100
+                  ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+                  ${isOpen ? 'shadow-lg shadow-indigo-100/50' : 'shadow-sm'}
+                `}
+                style={{ 
+                  transitionDelay: isVisible ? `${index * 0.1}s` : '0s' 
+                }}
+              >
+                <button
+                  className="w-full px-6 py-5 md:px-8 md:py-6 flex items-start justify-between text-left group"
+                  onClick={() => toggleFAQ(index)}
+                  aria-expanded={isOpen}
+                >
+                  <span className={`
+                    text-lg md:text-xl font-semibold pr-8 transition-colors duration-300
+                    ${isOpen ? 'text-indigo-600' : 'text-gray-900 group-hover:text-indigo-600'}
+                  `}>
+                    {faq.question}
+                  </span>
+                  
+                  <div className={`
+                    flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center
+                    transition-all duration-300
+                    ${isOpen ? 'bg-indigo-600 rotate-180' : 'bg-indigo-50 group-hover:bg-indigo-100'}
+                  `}>
+                    {isOpen ? (
+                      <Minus className="w-5 h-5 text-white" />
+                    ) : (
+                      <Plus className="w-5 h-5 text-indigo-600" />
+                    )}
+                  </div>
+                </button>
+                
+                <div
+                  className={`
+                    overflow-hidden transition-all duration-300
+                    ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+                  `}
+                >
+                  <div className="px-6 pb-6 md:px-8 md:pb-8">
+                    <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+
       </div>
     </section>
   );
-}
+};
+
+export default FAQSection;

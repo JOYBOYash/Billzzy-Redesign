@@ -1,0 +1,56 @@
+/* FAQSection.css */
+
+/* Existing custom colors and fade-in for answer */
+.custom-indigo-text {
+  color: #4F46E5; /* Hex for indigo-600 */
+}
+
+.custom-blue-icon {
+  color: #1D4ED8; /* Hex for blue-700 */
+}
+
+.faq-answer-transition {
+  animation: fadeInAnswer 0.3s ease-out forwards;
+}
+
+@keyframes fadeInAnswer {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* NEW: Scroll-in animations for the FAQ section and individual items */
+
+/* Initial state: hidden and slightly moved down */
+.faq-hidden {
+  opacity: 0;
+  transform: translateY(30px); /* Adjust for desired "slide up" distance */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+}
+
+/* Visible state: fully opaque and in original position */
+.faq-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delay for individual items */
+/* These will be applied dynamically using style attribute or JavaScript */
+/* No need for explicit classes like .faq-item-delay-1, etc. */
+
+/* Animation for the CTA section */
+.cta-hidden {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.cta-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
