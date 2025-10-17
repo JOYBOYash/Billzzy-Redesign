@@ -27,6 +27,52 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* app/globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* New: Subtle scale-in */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* New: Small subtle bounce for icons or small elements */
+@keyframes bounceSmall {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+
+/* Utility classes for animations */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.7s ease-out forwards;
+}
+
+.animate-bounce-small {
+  animation: bounceSmall 0.3s ease-in-out; /* Use on hover */
+}
+
+/* Adjustments for Image component in App Router */
+.image-container-fill {
+  position: relative;
+  width: 100%;
+  padding-bottom: 75%; /* Adjust aspect ratio as needed, e.g., 56.25% for 16:9 */
+  /* Remove overflow: hidden if you want to allow blur-out effect outside */
+}
+
 :root {
 
     --background: #ffffff;
@@ -51,4 +97,8 @@ body {
      .feature-card * {
        font-family: inherit; /* Ensures consistency in custom components */
      }
-     
+     @keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
