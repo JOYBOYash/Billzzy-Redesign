@@ -69,7 +69,7 @@ const IndustryCard: React.FC<IndustryCardProps> = ({ industry }) => {
       onTouchCancel={handleTouchEnd}
     >
       <div className={`
-        h-full p-6 sm:p-8 lg:p-10 // Increased padding for larger screens
+        h-full p-6 sm:p-8 lg:p-10 
         bg-white border border-gray-100 rounded-2xl 
         transition-all duration-300 ease-out
         relative

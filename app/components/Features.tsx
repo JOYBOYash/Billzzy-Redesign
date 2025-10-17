@@ -136,7 +136,9 @@ function MobilePhone({ feature, style, isMobile }: MobilePhoneProps) {
                   whileTap={{ scale: 0.98 }}
                   className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold cursor-pointer rounded-xl text-sm hover:from-indigo-700 hover:to-purple-700 transition-all shadow-md block text-center"
                 >
-                  Learn More
+                   <a href={`/features/${feature.slug}`}>
+                    Learn More
+                  </a>
                 </motion.div>
               </div>
             </div>
