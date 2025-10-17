@@ -45,13 +45,13 @@ const Navbar: React.FC = () => {
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 z-50 transition-all min-w-screen max-w-screen duration-300 ${
         scrolled
           ? "bg-white/90 backdrop-blur-md shadow-md py-2"
           : "bg-white py-4"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-6">
+      <div className="max-w-7xl mx-auto flex  justify-between items-center px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" onClick={handleMobileLinkClick}>
           <img
