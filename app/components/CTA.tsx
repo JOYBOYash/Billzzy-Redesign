@@ -7,7 +7,7 @@ function CTA() {
         <div
           className={`
             text-center transition-all duration-700 mt-24
-            py-t-12 md:px-8
+             md:px-8
             'opacity-100 translate-y-0'}
           `}
         >
