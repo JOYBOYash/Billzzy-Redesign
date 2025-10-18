@@ -25,10 +25,10 @@ export default function Home() {
       <div  id='pricing'>
        <PricingSection />
       </div>
-      <div  id='faq'>
+      <div  id='faq' className="mt-24 mb-24">
         <FAQSection />
       </div>
-      <CTA />
+      {/* <CTA /> */}
       <Footer />
     </div>
   );

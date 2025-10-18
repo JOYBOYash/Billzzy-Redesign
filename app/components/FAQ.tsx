@@ -36,14 +36,46 @@ const faqs: FAQItem[] = [
 ];
 
 const FAQSection = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number>(0); // Start with first FAQ open
   const [isVisible, setIsVisible] = useState(false);
   const [faqVisibilities, setFaqVisibilities] = useState<boolean[]>(new Array(faqs.length).fill(false));
-  const [ctaVisible, setCtaVisible] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const ctaRef = useRef<HTMLDivElement>(null);
+
+  // Auto-cycle through FAQs
+  useEffect(() => {
+    if (isPaused) {
+      setProgress(0);
+      return;
+    }
+
+    setProgress(0);
+    const duration = 5000; // 5 seconds
+    const intervalTime = 50; // Update every 50ms
+    const increment = (intervalTime / duration) * 100;
+
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          return 0;
+        }
+        return prev + increment;
+      });
+    }, intervalTime);
+
+    const cycleInterval = setInterval(() => {
+      setOpenIndex((prevIndex) => (prevIndex + 1) % faqs.length);
+      setProgress(0);
+    }, duration);
+
+    return () => {
+      clearInterval(progressInterval);
+      clearInterval(cycleInterval);
+    };
+  }, [isPaused, openIndex]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,9 +94,6 @@ const FAQSection = () => {
                 });
               }
             });
-            if (entry.target === ctaRef.current) {
-              setCtaVisible(true);
-            }
           }
         });
       },
@@ -75,24 +104,29 @@ const FAQSection = () => {
     faqRefs.current.forEach(faqRef => {
       if (faqRef) observer.observe(faqRef);
     });
-    if (ctaRef.current) observer.observe(ctaRef.current);
 
     return () => {
       if (sectionRef.current) observer.unobserve(sectionRef.current);
       faqRefs.current.forEach(faqRef => {
         if (faqRef) observer.unobserve(faqRef);
       });
-      if (ctaRef.current) observer.unobserve(ctaRef.current);
     };
   }, []);
 
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(prevIndex => (prevIndex === index ? null : index));
+  const handleFAQClick = (index: number) => {
+    setOpenIndex(index);
+    setIsPaused(true);
+    setProgress(0);
+    
+    // Resume auto-cycling after 10 seconds of user interaction
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 10000);
   };
 
   return (
     <section className="max-h-screen overflow-hidden md:py-36 py-0">
-      <div className="max-w-4xl max-h-screen mx-auto px-6  p-12 md:px-8">
+      <div className="max-w-4xl max-h-screen mx-auto px-6 p-12 md:px-8">
         
         {/* Header Section */}
         <div 
@@ -135,7 +169,7 @@ const FAQSection = () => {
               >
                 <button
                   className="w-full px-6 py-5 md:px-8 md:py-6 flex items-start justify-between text-left group"
-                  onClick={() => toggleFAQ(index)}
+                  onClick={() => handleFAQClick(index)}
                   aria-expanded={isOpen}
                 >
                   <span className={`
@@ -170,12 +204,35 @@ const FAQSection = () => {
                     </p>
                   </div>
                 </div>
+                
+                {/* Progress Bar */}
+                {isOpen && (
+                  <div className="h-1 bg-gray-100 w-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-indigo-500 to-indigo-600 transition-all duration-100 ease-linear"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
 
-
+        {/* Progress Indicator */}
+        <div className="flex justify-center gap-2 mb-8">
+          {faqs.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleFAQClick(index)}
+              className={`
+                h-2 rounded-full transition-all duration-300
+                ${openIndex === index ? 'w-8 bg-indigo-600' : 'w-2 bg-gray-300 hover:bg-indigo-300'}
+              `}
+              aria-label={`Go to FAQ ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

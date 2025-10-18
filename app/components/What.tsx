@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Package, Shield, Scale, Zap } from 'lucide-react';
+import { Package, Recycle, Scale, Zap } from 'lucide-react';
 
 const WhatWeDoSection = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
@@ -11,13 +11,13 @@ const WhatWeDoSection = () => {
       id: 1,
       icon: Package,
       title: "Explore 50+ product collections",
-      description: "Discover curated investment themes across markets and sectors"
+      description: "Discover comprehensive product collections straight from your stocks!"
     },
     {
       id: 2,
-      icon: Shield,
+      icon: Recycle,
       title: "Buy and sell with $0 commissions",
-      description: "Trade without worrying about transaction fees eating into your returns"
+      description: "E-commerce? more like -  *free-commerce with zero commission fees!"
     },
     {
       id: 3,
@@ -29,7 +29,7 @@ const WhatWeDoSection = () => {
       id: 4,
       icon: Zap,
       title: "Get started with just $1",
-      description: "Low barrier to entry means anyone can begin their investment journey"
+      description: "Low barrier to entry means anyone can begin their online-marketplace journey!"
     }
   ];
 

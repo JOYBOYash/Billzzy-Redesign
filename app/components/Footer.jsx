@@ -1,11 +1,16 @@
 import React from 'react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaEnvelope } from 'react-icons/fa'; // Assuming you're using react-icons
+import CTA from './CTA';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
+    <>
+       <CTA />
     <footer className="bg-gray-900 text-gray-300 py-12 px-6 sm:px-10 lg:px-20 border-t border-gray-800">
+
+       
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
 
         {/* Company Info */}
@@ -92,6 +97,7 @@ const Footer = () => {
         </p>
       </div>
     </footer>
+    </>
   );
 };
 
