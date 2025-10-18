@@ -16,12 +16,12 @@ const faqs: FAQItem[] = [
   {
     question: 'Can I manage products with different sizes and colors?',
     answer:
-      'Yes! Billzzy supports full product variants — including size, color, and style — each tracked separately for inventory accuracy. It\'s made for real-world retail needs, giving you complete control over your product catalog and inventory management.',
+      'Yes! Billzzy supports full product variants — including size, color, and style — each tracked separately for inventory accuracy. It\'s made for real-world retail needs & giving you complete control over your product catalog, for managing your inventory.',
   },
   {
     question: 'Is it difficult to get started?',
     answer:
-      'Not at all! You can create your account, add products, and generate your first bill in under 5 minutes. Our guided onboarding walks you through every step, ensuring a smooth and hassle-free setup experience for your business.',
+      'Not at all! You can create your account, add products, and generate your first bill in under 5 minutes, with not mre than a penny! Our guided onboarding walks you through every step, ensuring a smooth and hassle-free setup experience for your business.',
   },
   {
     question: 'Who is Billzzy for?',
@@ -31,7 +31,7 @@ const faqs: FAQItem[] = [
   {
     question: 'Can I access Billzzy on mobile?',
     answer:
-      'Yes! Billzzy works seamlessly across desktop, tablet, and mobile browsers — so your business moves with you, wherever you go. Access all features on any device and manage your operations on the move with complete flexibility.',
+      'Yes! Billzzy works seamlessly across desktop, tablet, and mobile browsers — so your business moves with you, wherever you go. Access all features on any device and manage your operations on the move with complete flexibility and always keep tracking them!',
   },
 ];
 
@@ -146,7 +146,7 @@ const FAQSection = () => {
           {/* FAQ Cards Container */}
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-stretch">
             {/* Questions List */}
-            <div className="w-full md:w-2/5 space-y-3">
+            <div className="w-full md:w-2/5 space-y-3 md:min-h-0" style={{ minHeight: '280px' }}>
               {faqs.map((faq, index) => (
                 <button
                   key={index}
