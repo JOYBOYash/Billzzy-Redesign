@@ -27,7 +27,7 @@ export default function Home() {
       <div  id='pricing'>
        <PricingSection />
       </div>
-      <div  id='faq' className="mt-24 mb-24">
+      <div  id='faq'>
         <FAQSection />
       </div>
       {/* <CTA /> */}
